@@ -24,5 +24,4 @@ Techologies used:
 1. Python
 2. Django
 3. Html
-4. MySQL
           
