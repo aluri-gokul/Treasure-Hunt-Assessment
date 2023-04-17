@@ -1,0 +1,64 @@
+{% extends 'index.html' %} {% load static %} {% block styles %}
+
+<link rel="stylesheet" media="screen" href="{% static 'styles/login.css' %}" />
+{% endblock %} {% block content %}
+
+<hr align="center" color="sienna" width="90%" />
+<h2 class="heading-2" align="center">Sign-up</h2>
+
+<div class="form-cont">
+  {% if msg %}
+    <h3 style="margin:2px;color:red">{{msg}}</h3>
+  {% endif %}
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-blocks">
+      <div class="c1">
+      <span>Name</span>
+    </div>
+    <div class="c2">
+      <input type="text" name="uname" required />
+      <!-- <span>and</span> -->
+    </div>
+    </div>
+    <div class="form-blocks">
+      <div class="c1">
+      <span>Email ID </span>
+    </div>
+    <div class="c2">
+      <input type="email" name="uemail" required />
+      <!-- <span>and</span> -->
+    </div>
+    </div>
+    <div class="form-blocks">
+      <div class="c1">
+    <span>Password</span>
+  </div>
+  <div class="c2">
+    <input type="password" name="upass" minlength="6" required />
+  </div>
+ 
+    <!-- <span> .</span> -->
+  </div>
+  <div class="form-blocks">
+    <div class="c1">
+  <span>Confirm Password</span>
+</div>
+<div class="c2">
+  <input type="password" name="repass" minlength="6"  required />
+</div>
+
+  <!-- <span> .</span> -->
+</div>
+    <input class="btn-end" type="submit" name="submit" value="submit" />
+  </form>
+  <div class="oth">
+    Already have an account?
+    <a class="oth-link" href="{% url 'login' %}">Login </a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block usercheck%}
+{% endblock %}

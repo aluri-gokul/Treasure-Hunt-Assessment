@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Detective: Treasure Hunt</title>
+
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    
+
+    <link
+      rel="stylesheet"
+      media="screen"
+      href="{% static 'styles/home.css' %}"
+    />
+    {% block styles %}
+    {% endblock %}
+  </head>
+  <body>
+
+    <div class="container">
+      {% block game %}
+      <div class="cardmain">
+        
+        
+        <h1 class="heading-1" align="center">The Detective: Treasure Hunt</h1>
+        {% block content %}
+        <div class="preface-content">
+          <div id="typewriter">
+            Welcome to the world of mystery and adventure! Once a renowned king had a priceless painting that was close to his heart. However, he was worried about the safety of the painting and decided to hide it in his museum. Being a wise and intelligent king, he left behind a series of verbal and reasoning questions to make sure that only the right person could find it. You are the detective who has been tasked with this mission. As you enter the museum, you see that it's an enormous building filled with many rooms and corridors. You know that you must answer the questions correctly to move forward and find the painting. Click on continue to start the hunt.
+          </div>
+        </div>
+
+        <div class="continue">
+            <a class="btn-end" id ="btn" href="{% url 'login' %}">Continue</a>
+        </div>
+
+        
+
+
+        {% endblock %}
+      </div>
+      {% block usercheck%}
+      {% if name != False %}
+      <div class="continue">
+        <a class="btn-end" id ="btn1" href="{% url 'logout' %}">Logout</a>
+      </div>
+    {% endif %}
+    {% endblock %}
+     
+    
+
+      {% endblock %}
+     
+    </div>
+
+    
+{% block script %}
+    <script>
+      let i = 0;
+
+      let target = document.getElementById("typewriter");
+      let text = target.innerHTML;
+      target.innerHTML = " ";
+      let speed = 16; //speed duration of effect in millisec
+      document.getElementById("btn").style.display = "none";
+      let flag = false;
+      if (document.getElementById("btn1"))
+      {
+        document.getElementById("btn1").style.display = "none";
+        flag = true;
+      }
+
+      
+      typeWriter(); //to call function
+
+      function typeWriter() {
+        
+        if (i < text.length) {
+            // while(text.charAt(i)=='\n') i++;
+          target.innerHTML += text.charAt(i);
+          i++;
+          if(i == text.length-1)
+          {
+            document.getElementById("btn").style.display = "block";
+            if(flag)
+              document.getElementById("btn1").style.display = "";
+
+          }
+
+          setTimeout(typeWriter, speed);
+        }
+        
+      }
+
+      
+    </script>
+{% endblock %}
+
+    
+  </body>
+</html>

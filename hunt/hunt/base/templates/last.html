@@ -1,0 +1,97 @@
+{% extends 'index.html' %} {% load static %} {% block styles %}
+
+<link rel="stylesheet"  href="{% static 'styles/winner.css' %}" />
+<style>
+    .imgs{
+        justify-content: center;
+    flex-direction: row;
+    display: flex;
+    padding : 30px;
+    margin: 20px;
+}
+
+.img1{
+    transition: 0.2s ease-in;
+    background: black;
+    padding: 0px;
+    margin: 20px;
+    border-radius: 8px;
+    border:8px solid gold;
+}
+
+.img1>img{
+   
+    margin: 4px;
+    padding: 0px;
+    border-radius: 8px;
+}
+
+.img2{
+    transition: 0.2s ease-in;
+    background: black;
+    padding: 0px;
+    margin: 20px;
+    border-radius: 8px;
+    border: 8px solid rgb(168, 167, 167);
+}
+
+.img2>img{
+    
+    margin: 4px;
+    padding: 0px;
+    border-radius: 8px;
+}
+
+.img1:hover{
+    transition: 0.2s ease-out;
+    cursor: pointer;
+    box-shadow: 0px 0px 24px 2px black;
+}
+.img2:hover{
+    transition: 0.2s ease-out;
+    cursor: pointer;
+    box-shadow: 0px 0px 24px 2px black;
+
+}
+</style>
+{% endblock %} 
+
+{% block game%}
+
+
+<div class="cardmain">
+        
+        
+    <h1 class="heading-1" align="center">Find the Original One!</h1>
+   
+    <div class="imgs">
+        <div class="img1" id="clk1">
+            <img height="300" width="500" src="{% static 'img1.jpg' %}" alt="painting"/>
+        </div>
+        <div class="img2" id="clk2">
+            <img height="300" width="500" src="{% static 'img1.jpg' %}" alt="painting"/>
+        </div>
+    </div>
+    <h3 align="center">( Click on the Original Painting... Remember?? A hint was already given about the original painting. )</h3>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    var d = document.getElementById('clk1');
+    d.addEventListener('click', function(event){
+        url = "{% url 'winner' %}"
+        window.location.href = url;
+    });
+
+    var e = document.getElementById('clk2');
+    e.addEventListener('click', function(event){
+        url = "{% url 'opps' %}"
+        window.location.href = url;
+    });
+</script>
+{% endblock %}
+
+{% block usercheck%}
+{% endblock %}

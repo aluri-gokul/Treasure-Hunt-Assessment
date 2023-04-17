@@ -1,0 +1,119 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block styles %}
+<link rel="stylesheet"  href="{% static 'styles/game.css' %}" />
+<style>
+    .btn-restart{
+    background: white;
+    color: var(--col-pri);
+    text-decoration: none;
+    padding: 6px;
+    border: 1px solid var(--col-sec);
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    transition: 0.5s linear;
+    -webkit-transition: 0.5s linear;
+    -moz-transition: 0.5s linear;
+    -ms-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+}
+
+.btn-restart:hover {
+    background: var(--col-chg);
+    box-shadow: 0px 0px 4px 1px rgb(100, 98, 98);
+    animation: changeBg 0.5s linear;
+    -webkit-animation: changeBg 0.5s linear;
+}
+</style>
+{% endblock %} 
+
+{% block game %}
+<!-- <div class="ts"> 
+    <button class="btn-top" id ="rst">Restart</button>
+    <span> Time: </span><div class="cnt" id="time"></div>
+    <span> Score: </span><div class="cnt" id="score"></div>
+</div> -->
+
+
+<div class="cardmain">
+        
+        
+    <h1 class="heading-1" align="center">Trapped</h1>
+    <div class="alignitems">
+    <div class="preface-content">
+
+    <div id = "typewriter">
+        "{{clue}}"
+    </div>
+    
+        
+      <!-- </div> -->
+    </div>
+</div>
+<center>
+<button class="btn-restart" id ="rst">Restart</button>
+</center>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    function destvar()
+        {
+            // var st = 'stime' + "{{tid}}";
+            sessionStorage.clear();
+        }
+        var r = document.getElementById('rst');
+        r.addEventListener("click", (event)=>
+        {
+            destvar();
+            var url  = "{% url 'restart' %}";
+            document.location.href = url;
+        })
+    
+    let i = 0;
+    
+    let target = document.getElementById("typewriter");
+    let text = target.innerHTML;
+    console.log(text);
+    target.innerHTML = " ";
+    let speed = 16; //speed duration of effect in millisec
+    document.getElementById("rst").style.display = "none";
+    
+    typeWriter(); //to call function
+    
+    function typeWriter() {
+      
+      if (i < text.length) {
+          // while(text.charAt(i)=='\n') i++;
+        target.innerHTML += text.charAt(i);
+        i++;
+        if(i == text.length-1)
+        {
+          document.getElementById("rst").style.display = "block";
+        }
+    
+        setTimeout(typeWriter, speed);
+      }
+      
+    }
+    
+    </script>
+{% endblock %}
+
+{% block usercheck%}
+{% endblock %}

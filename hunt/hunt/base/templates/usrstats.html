@@ -1,0 +1,382 @@
+{% extends 'index.html' %} {% load static %} {% block styles %}
+<style>
+    .preface-content{
+        display: flex;
+        width: 100%;
+    }
+
+    .plots{
+        border: 2px solid black;
+        height: 400px;
+        box-shadow: 0px 0px 10px 1px rgba( 0, 0, 0, 0.4 );
+
+        overflow-x: auto;
+    overflow-y: auto; 
+    scroll-behavior: smooth;
+    width: 40%;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    margin : 5px;
+
+    }
+ 
+
+    .plots::-webkit-scrollbar {
+        border-radius: 8px;
+  width: 12px;              
+}
+.plots::-webkit-scrollbar-track {
+    border-radius: 8px;
+  background: bisque;       
+}
+.plots::-webkit-scrollbar-thumb {
+  background-color: rgb(223, 158, 77);   
+  border-radius: 20px;       
+  border: 3px solid rgb(112, 56, 7);  
+}
+
+.table-wrapper{
+    border: 1px solid black;
+    margin: 10px 70px 70px;
+    box-shadow: 0px 0px 10px 1px rgba( 0, 0, 0, 0.4 );
+    max-height: 400px;
+    border-radius: 8px;
+    /* max-width: 1000px; */
+    /* max-width: 500px; */
+    width: 40%;
+    overflow-x: auto;
+    overflow-y: auto; 
+    scroll-behavior: smooth;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    border-radius: 8px;
+  width: 12px;              
+}
+.table-wrapper::-webkit-scrollbar-track {
+    border-radius: 8px;
+  background: bisque;       
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgb(223, 158, 77);   
+  border-radius: 20px;       
+  border: 3px solid rgb(112, 56, 7);  
+}
+
+.fl-table {
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 16px;
+}
+
+.fl-table tr:hover{
+    background: rgb(254, 242, 227);
+}
+
+.fl-table tr:nth-child(even):hover {
+    background: rgb(254, 242, 226);
+}
+
+
+.fl-table thead th {
+    font-size: 16px;    
+    color: #ffffff;
+    background: rgb(223, 158, 77);
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: rgb(112, 56, 7);
+    background: bisque;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .fl-table {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
+        display: block;
+    }
+    .fl-table thead th:last-child{
+        border-bottom: none;
+    }
+    .fl-table thead {
+        float: left;
+    }
+    .fl-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .fl-table td, .fl-table th {
+        padding: 20px .625em .625em .625em;
+        height: 60px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: auto;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+    .fl-table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .fl-table tbody tr {
+        display: table-cell;
+    }
+    .fl-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .fl-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .fl-table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tbody td {
+        display: block;
+        text-align: center;
+    }
+
+
+}
+
+
+.bckbtn{
+    padding: 8px;
+    font-size: 18px;
+    border-radius: 8px;
+    width: 100px;
+    background:rgb(254, 242, 226);
+    color:rgb(103, 42, 4);
+    font-weight: 600;
+    transition: 0.2s ease-in;
+}
+
+.bckbtn:hover{
+    transition: 0.2s ease-out;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.6);
+}
+
+</style>
+{% endblock %} 
+
+{% block game %}
+
+
+
+<div class="cardmain">
+        
+        
+    <h1 class="heading-1" align="center">The Detective: Treasure Hunt</h1>
+    <h1 class="heading-1" align="center" style="color: #482525"><u>User Stats</u></h1>
+    <div class="alignitems">
+        <h2  style="font-size: 38px;margin: 20px;margin-left: 80px;color:rgb(103, 42, 4)"> <span style="font-weight: 100;margin: 10px;">Name: </span>{{name}} </h2>
+        <h2  style="font-size: 38px; margin: 20px;margin-left: 80px;color:rgb(103, 42, 4)"> <span style="font-weight: 100;margin: 10px;">Score: </span>{{totalscore}} </h2>
+
+    <div class="preface-content">
+        {% if d %}
+
+       
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                <tr>
+                    <!-- <th>Name</th>
+                    <th>Total Score</th> -->
+                    <th>Q. No.</th>
+                    <th>Score</th>
+                    <th>Time(mm:ss)</th>
+                    <!-- <th>User Stats</th> -->
+                </tr>
+                </thead>
+                <tbody>
+                  
+                
+                    
+                    {% for k,v in value.items %}
+              
+                    <!-- <td>{{k}}</td> -->
+                    <!-- <td>{{k}}</td> -->
+                    {% for vals in v %}
+                    <tr>
+                        <td>{{vals.0}}</td>
+                        <td>{{vals.1}}</td>
+                        <td>{{vals.2}}</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- <td><a href= "{% url 'usrstats' v.0 %}">View</a></td> -->
+               
+                    {% endfor %}
+                <tbody>
+            </table>
+        </div>
+
+        <div class="plots">
+            <h3 style="margin: 10px;color:rgb(112, 56, 7)">User Data Plots:</h3>
+            <h4 style="margin: 10px;color:rgb(112, 56, 7)">Question vs Scores</h4>
+
+            <canvas id="myChart" width="400" height="200"></canvas>
+            <h4 style="margin: 10px;color:rgb(112, 56, 7)">Problem Solving vs Communication</h4>
+            <canvas id="myChart1" width="400" height="200"></canvas>
+
+        </div>
+        
+
+        {% endif %}
+    </div>
+    <center>
+    <button type="button" id="bck" class="bckbtn">Back</button>
+    </center>
+</div>
+
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+
+var labs = [
+    {% for k,v in value.items %}
+    {% for vals in v %}
+    Number("{{vals.0}}"),
+    {% endfor %}
+    {% endfor %}
+]
+
+
+var data = [
+{% for k,v in value.items %}
+    {% for vals in v %}
+    Number("{{vals.1}}"),
+    {% endfor %}
+    {% endfor %}
+]
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels : labs,
+        datasets: [{
+          label: "Score",
+          data : data,
+          backgroundColor: 'rgba(223, 158, 77,0.6)',
+          borderColor: 'rgba(112, 56, 7,1)',
+          borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            }
+        }
+    }
+});
+
+var vsum = 0;
+var psum = 0;
+
+for (var i= 0; i < data.length; i++)
+{
+    if(i%2==0 || i == 0)
+    {
+        vsum += data[i];
+    }
+    else{
+        psum += data[i];
+    }
+}
+
+// console.log(vsum, psum);
+var data1 = [psum,vsum];
+var labs1 = ['Problem Solving','Communication']
+
+const myChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels : labs1,
+        datasets: [{
+          data : data1,
+          backgroundColor: ['rgba(239, 200, 149,1)','rgba(55, 37, 14,1)'],
+          weight: 1
+        }]
+    },
+    options: {
+    responsive: true,
+    radius: '75%'
+  }
+});
+</script>
+<script>
+    function destvar()
+    {
+        // var st = 'stime' + "{{tid}}";
+        sessionStorage.clear();
+    }
+    var r = document.getElementById('bck');
+    r.addEventListener("click", (event)=>
+    {
+        destvar();
+        var url  = "{% url 'adm' %}";
+        document.location.href = url;
+    })
+</script>
+
+{% endblock %}
+
+
+
+
+{% block usercheck%}
+{% endblock %}

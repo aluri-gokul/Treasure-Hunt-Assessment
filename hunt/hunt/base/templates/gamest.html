@@ -1,0 +1,298 @@
+{% extends 'index.html' %} {% load static %} {% block styles %}
+
+<link rel="stylesheet"  href="{% static 'styles/game.css' %}" />
+<style>
+    .shake{
+    background: rgb(255, 215, 215);
+    /* border: 2px solid red; */
+    animation: shake 0.5s ease-in-out;
+    -webkit-animation: shake 0.5s;
+}
+</style>
+{% if hurray %}
+    <style>
+       .crtone{
+        z-index: 999;
+    position: fixed;
+    left: 10%;
+    top: 10%;
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid green;
+    box-shadow: 0px 0px 10px 1px black;
+    background: rgba(255, 255, 255,0.9);
+    width: 1200px;
+    height: 400px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.co
+{
+    position: inherit;
+    margin: 250px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 18px;
+    background : rgb(252, 237, 219);
+    color: rgb(55, 37, 14);
+    font-weight: bold;
+    transition: 0.5s ease-in;
+
+
+
+}
+
+.co:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 5px 1px black;
+    transition: 0.5s ease-out;
+}
+
+.typewriter
+{
+    position: inherit;
+    margin: 100px;
+    box-shadow: 0px 0px 10px 2px black;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    display: flex;
+    
+    justify-content: center;
+    background-color: rgb(252, 237, 219);
+}
+
+
+@media (min-width: 200px) and (max-width: 425px) {
+    .crtone{
+        top: 2%;
+        left: 4%;
+        width: 300px;
+        height: 400px;
+    }
+    .typewriter{
+        width: 240px;
+    }
+    .co{
+        margin: 290px;
+    }
+}
+
+@media (min-width: 425px) and (max-width:800px) {
+    .crtone{
+        top: 10%;
+        left: 10%;
+        width: 600px;
+        height: 400px;
+    }
+    .typewriter{
+        width: 400px;
+    }
+    .co{
+        margin: 290px;
+    }
+}
+
+@media (min-width: 800px) and (max-width:1100px) {
+    .crtone{
+        top: 10%;
+        left: 10%;
+        width: 850px;
+        height: 400px;
+    }
+    .typewriter{
+        width: 600px;
+    }
+    .co{
+        margin: 240px;
+    }
+}
+    </style>
+{% endif %}
+{% endblock %} 
+
+{% block game %}
+
+{% if hurray %}
+    <div class="crtone">
+        <h1 style=" font-size: 40px;color:green"> Correct</h1>
+        
+        <div class="typewriter">
+            Hurray! you got it, It's correct. The door opened and we got into another passage. I guess we are getting closer to the painting.
+            {% if hint %}
+             I really forgot to tell you that the painting is kept in golden frame to give tribute to the artist.
+            {% endif %}
+            Let'z keep going... See! there's another question, click on continue to answer.
+        </div>
+        <button class="co" type="button" id="cnt">Continue</button>
+    </div>
+{% endif %}
+
+<div class="ts"> 
+    <button class="btn-top" id ="rst">Restart</button>
+    <span> Time: </span><div class="cnt" id="time"></div>
+    <span> Score: </span><div class="cnt" id="score"></div>
+</div>
+
+
+<div class="cardmain">
+        
+        
+    <h1 class="heading-1" align="center">The Detective: Treasure Hunt</h1>
+    <div class="alignitems">
+    <div class="preface-content">
+      <!-- <div id="typewriter"> -->
+    
+ 
+        <!-- <i>"It am made of bones but It's not alive,
+            It supports your body but It cannot strive,
+            It has no muscle or flesh, it's just a calcium drive,
+            What is It?" -->
+        <!-- </i> -->
+    <i>
+        "{{clue}}"
+    </i>
+    
+        
+      <!-- </div> -->
+    </div>
+</div>
+
+
+
+<form method="post">
+    {% csrf_token %}
+ 
+    <div class="ans-bar">
+        <input type="text" class="bar" name="clueans" placeholder="Please write your answer here..." required>
+    </div>
+    <input class="btn-end" type="submit" name="submit" value="check"> 
+    <!-- <button class="btn-end" onclick="{restart()}" >restart</button> -->
+</form>
+
+{% if error%}
+<center>
+<h3 style="margin:2px;color:red">Incorrect Answer</h3>
+</center>
+{% endif %}
+<!-- <button type ="button" onclick="destvar()">dest</button> -->
+    <!-- <div class="continue">
+        <a class="btn-end" href="{ url 'gamest' '1' }">Let'z Start</a>
+    </div> -->
+
+
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+//   b.classList.add("shake"); 
+
+function destvar()
+    {
+        // var st = 'stime' + "{{tid}}";
+        sessionStorage.clear();
+    }
+    var r = document.getElementById('rst');
+    r.addEventListener("click", (event)=>
+    {
+        destvar();
+        var url  = "{% url 'restart' %}";
+        document.location.href = url;
+    })
+    
+
+    window.onload =
+        function(){
+            var st = 'stime' + "{{tid}}";
+            if(sessionStorage.length > 1)
+            {
+                destvar();
+            }
+            if(sessionStorage.getItem(st) == null)
+            {
+                sessionStorage.setItem(st,(Date.now()).toString());
+            }
+            
+        }
+    
+
+window.setInterval((function(){
+
+    var st = 'stime' + "{{tid}}";
+
+    var start = (sessionStorage.getItem(st) == null)? Date.now() : Number(sessionStorage.getItem(st));
+
+   var d = document.getElementById('time');
+   var s = document.getElementById('score');
+   s.innerHTML = '{{score}}';
+   d.innerHTML = '0:00'; //.appendChild(textNode);
+   return function() {
+        //textNode.data 
+        res = Math.floor((Date.now()-start)/1000);// + 's';
+        
+
+        if(res > 60)
+        {
+            var sc = Math.floor(res/60);
+            var soc = Math.ceil(Number("{{score}}")/sc);
+        
+            s.innerHTML = (soc >=5)?soc:5;
+            
+            
+            res = sc + ":" + (res%60).toString().padStart(2,'0');
+        }
+        else{
+            res = "0:"+ res.toString().padStart(2,'0');
+        }
+        
+        
+        d.innerHTML = res;
+        };
+   }()), 1000);
+    
+
+</script>
+
+
+{% if error %}
+<script type="text/javascript">
+    document.getElementsByClassName('bar')[0].classList.add('shake');
+</script>
+{% else %}
+<script type="text/javascript">
+    if(document.getElementsByClassName('bar')[0].classList.contains('shake')){
+    document.getElementsByClassName('bar')[0].classList.remove('shake');
+    }
+</script>
+{% endif %}
+
+
+{% if hurray %}
+<script>
+    var c = document.getElementById('cnt')
+    c.addEventListener('click', function(){
+        document.getElementsByClassName('crtone')[0].style.display="none";
+    });
+    
+</script>
+{% endif %}
+
+{% endblock %}
+
+
+
+
+{% block usercheck%}
+{% endblock %}

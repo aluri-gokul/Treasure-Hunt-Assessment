@@ -1,0 +1,77 @@
+{% extends 'index.html' %} {% load static %} 
+
+{% block game %}
+<div class="cardmain">
+        
+        
+    <h1 class="heading-1" align="center">The Detective: Treasure Hunt</h1>
+    <div class="preface-content">
+      <div id="typewriter">
+        Welcome {{name}}, 
+        The museum is very old andhas many fake things. So be careful when answering the question.
+        The king is said to be one of the most intelligent king in the history and thus the questions may be tricky.
+        Also there may be traps setup by king to trap the intruders.
+        When ever you are ready click on Let'z start.
+      </div>
+    </div>
+
+    <div class="continue">
+        <a class="btn-end" id = "btn" href="{% url 'gamest' %}">Let'z Start</a>
+        
+    </div>
+
+    
+      <center>
+        <a class="btn-end" id ="btn1" href="{% url 'logout' %}">Logout</a>
+      </center>
+    
+<!-- 
+    <center>
+    <a class="btn-end" id = "btn1" href="{% url 'home' %}" > Home</a>
+  </center> -->
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+      let i = 0;
+
+      let target = document.getElementById("typewriter");
+      let text = target.innerHTML;
+      target.innerHTML = " ";
+      let speed = 16; //speed duration of effect in millisec
+      document.getElementById("btn").style.display = "none";
+      document.getElementById("btn1").style.display = "none";
+      
+      
+      typeWriter(); //to call function
+
+      function typeWriter() {
+        
+        if (i < text.length) {
+            // while(text.charAt(i)=='\n') i++;
+          target.innerHTML += text.charAt(i);
+          i++;
+          if(i == text.length-1)
+          {
+            document.getElementById("btn").style.display = "block";
+            document.getElementById("btn1").style.display = "";
+
+          }
+
+          setTimeout(typeWriter, speed);
+        }
+        
+      }
+
+      
+    </script>
+{% endblock %}
+
+
+{% block usercheck%}
+{% endblock %}
